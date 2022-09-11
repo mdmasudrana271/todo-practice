@@ -16,7 +16,7 @@ const handleSubmit = () =>{
                 completed:false,
             },
         ];
-        // console.log(todoList)
+        console.log(todoList)
         localStorage.setItem("TODOS", JSON.stringify(todoList));
     }
     else{
@@ -35,13 +35,17 @@ const handleSubmit = () =>{
 
 const render = () =>{
     const todos = JSON.parse(localStorage.getItem('TODOS'))
+    const msg = document.getElementById('hidden-msg')
+    if(todos.length === 0){
+        msg.classList.remove('hidden',true)
+    }
     // console.log(todos)
     const ul = document.getElementById("todo-list")
     ul.innerHTML = '';
     todos.forEach(item => {
         // console.log(item.title)
         const div = document.createElement('div')
-        div.classList.add('py-2')
+        div.classList.add('py-2','flex','justify-between')
         // li.setAttribute('onclick','removeTodo()')
         // div.innerText = `${item.title}`;
         div.innerHTML=`
@@ -58,7 +62,21 @@ const handleDelete = () =>{
     localStorage.removeItem('TODOS')
     render();
 }
+const getLocalStorageValue = () =>{
+    const todos = localStorage.getItem('TODOS')
+    const todo = JSON.parse(todos)
+    // console.log(todo)
+    return todo
+  
+}
+
+// console.log(getLocalStorageValue())
 
 const removeTodo =(item)=>{
-    console.log(item)
+    // console.log(item)
+    const todosList = getLocalStorageValue ()
+    todosList.splice(item,1)
+    localStorage.setItem('TODOS',JSON.stringify(todosList))
+    // console.log(todosList)
+    render()
 }
